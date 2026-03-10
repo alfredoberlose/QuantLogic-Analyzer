@@ -1,67 +1,106 @@
 # Quantitative Equity Analysis & Market Regime Dashboard
 
-This repository contains a **professional-grade quantitative analysis toolkit developed in Python**.  
-The project focuses on identifying **statistical edges in stock market data** through the analysis of **price action, historical drawdowns, and seasonal patterns**.
+A **Python-based quantitative research toolkit** designed to analyze the statistical behavior of individual equities using historical market data from **Yahoo Finance**.
+
+The framework allows users to **select any stock ticker** and run a full analysis pipeline including **breakout statistics, bear market regime detection, and seasonal performance patterns**.
+
+This project focuses on identifying **statistical edges in equity time series** through the analysis of:
+
+- price action dynamics
+- historical drawdowns
+- recovery structures
+- seasonal return patterns
+
+The ticker symbol can be easily modified to perform the same analysis on **any publicly traded stock available on Yahoo Finance**.
 
 ---
 
-## Core Features
+# Core Features
 
-### 1. Highs & Forward Returns Analysis
+## 1. Highs & Forward Returns Analysis
 
-This module identifies **52-week highs (252 trading days)** and performs a statistical analysis on subsequent price action.  
-It calculates the probability of **trend continuation** by analyzing **forward returns across multiple time horizons (20, 60, and 120 days)**.
+This module identifies **52-week highs (252 trading days)** and performs a statistical analysis on subsequent price behavior.
 
-**Key Metric:**  
-- Frequency of **"Breakout vs. Fakeout"**
+The goal is to measure whether **new highs tend to lead to continuation or mean reversion**.
 
-**Visual Insight:**  
-The chart below displays the historical relationship between hitting a **new yearly high** and the **expected magnitude of future gains**.
+Forward returns are computed across multiple horizons:
+
+- **20 trading days**
+- **60 trading days**
+- **120 trading days**
+
+### Key Metric
+
+**Breakout vs Fakeout Frequency**
+
+The model evaluates how often new highs lead to **continued upward momentum versus short-term reversals**.
+
+### Visual Insight
+
+The chart illustrates the historical relationship between **new yearly highs** and the **expected magnitude of future returns**.
 
 ![Highs & Forward Returns](highs&forward_returns.png)
 
 ---
 
-### 2. Bear Market & Recovery Profiling
+## 2. Bear Market & Recovery Profiling
 
-A deep-dive algorithm designed to detect **"Bear Market" regimes**, defined as a **peak-to-trough decline of 20% or more**.
+This module detects **Bear Market regimes**, defined as **peak-to-trough declines of at least 20%**.
 
-The analysis goes beyond simple detection, calculating:
+Beyond simple detection, the algorithm profiles the full **drawdown and recovery structure**.
 
-- **Time to Bottom:** Duration of the crash phase  
-- **Recovery Velocity:** Time required to break even *(return to previous ATH)*  
-- **Secondary Drawdowns:** Volatility clusters during the recovery phase  
+### Key Metrics
+
+- **Time to Bottom**  
+  Measures the duration of the crash phase.
+
+- **Recovery Velocity**  
+  Time required to recover to the **previous all-time high (ATH)**.
+
+- **Secondary Drawdowns**  
+  Volatility clusters occurring during the recovery phase.
+
+This analysis helps quantify how **different stocks behave during major stress events**.
 
 ![Bear Market Profiling](bear_market.png)
 
 ---
 
-### 3. Seasonality & Percentile Confidence Bands
+## 3. Seasonality & Percentile Confidence Bands
 
-This section provides a **normalized view of annual performance**.
+This module provides a **normalized view of annual performance patterns**.
 
-By aligning every historical year to a common starting point (**Base 0**), the model calculates the **median path** and defines statistical **"normalcy"** using percentile bands:
+Each historical year is aligned to a common starting point (**Base = 0**), allowing the model to estimate the **typical yearly trajectory**.
 
-- 10th percentile  
-- 25th percentile  
-- 75th percentile  
-- 90th percentile  
+The framework computes:
 
-**Applications**
+- **Median yearly path**
+- **10th percentile band**
+- **25th percentile band**
+- **75th percentile band**
+- **90th percentile band**
 
-**Alpha Generation:**  
-Identifies months where the stock consistently **outperforms or underperforms the median**.
+### Applications
 
-**Risk Management:**  
-Highlights periods where price action **deviates significantly from the 90th percentile**, signaling potential **mean reversion**.
+**Alpha Generation**
+
+Identify months where the stock **consistently outperforms or underperforms** its historical median.
+
+**Risk Management**
+
+Highlight periods where price action **moves outside the 90th percentile**, signaling potential **mean reversion or extreme momentum**.
 
 ![Seasonality Percentile Bands](seasonality_percentile_bands.png)
 
 ---
 
-## Tech Stack
+# Flexible Ticker Selection
 
-- **Data Sourcing:** `yfinance` — real-time and historical market data  
-- **Computation:** `Pandas` & `NumPy` for vectorized time-series operations  
-- **Statistics:** `Statsmodels` & `SciPy` for ARIMA modeling and hypothesis testing  
-- **Visualization:** `Plotly` for interactive, publication-quality charts
+The analysis pipeline is **ticker-agnostic**.
+
+Users can simply modify the ticker variable to run the full research workflow on any equity.
+
+Example:
+
+```python
+ticker = "AAPL"
